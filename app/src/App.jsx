@@ -1,4 +1,5 @@
 import './App.css'
+import './App.css'
 import React from "react";
 
 class App extends React.Component {
@@ -13,7 +14,7 @@ class App extends React.Component {
     timeElapsed: 0,
   };
 
-  interval = null; // Variable pour stocker l'intervalle
+  interval = null; // Stocke l’ID du timer
 
   handleClick = () => {
     this.setState((prevState) => {
@@ -28,20 +29,20 @@ class App extends React.Component {
     });
   };
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.montre && !prevState.montre) {
-      // Si on vient d'afficher la carte, démarrer le timer
+      // Si on vient d'afficher la carte, on démarre le timer
       this.interval = setInterval(() => {
         this.setState((prev) => ({ timeElapsed: prev.timeElapsed + 1 }));
       }, 1000);
     } else if (!this.state.montre && prevState.montre) {
-      // Si on vient de cacher la carte, arrêter le timer
+      // Si on vient de cacher la carte, on arrête le timer
       clearInterval(this.interval);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval); // Arrêter le timer si le composant disparaît
+    clearInterval(this.interval); // Stoppe le timer proprement avant que le composant disparaisse
   }
 
   render() {
