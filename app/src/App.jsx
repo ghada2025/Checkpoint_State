@@ -19,27 +19,16 @@ class App extends React.Component {
   handleClick = () => {
     this.setState((prevState) => {
       if (!prevState.montre) {
-        // Si on affiche, on réinitialise le temps et on démarre le timer
+        this.interval = setInterval(() => {
+          this.setState((prev) => ({ timeElapsed: prev.timeElapsed + 1 }));
+        }, 1000);
         return { montre: true, timeElapsed: 0 };
       } else {
-        // Si on cache, on arrête le timer
         clearInterval(this.interval);
         return { montre: false };
       }
     });
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.montre && !prevState.montre) {
-      // Si on vient d'afficher la carte, on démarre le timer
-      this.interval = setInterval(() => {
-        this.setState((prev) => ({ timeElapsed: prev.timeElapsed + 1 }));
-      }, 1000);
-    } else if (!this.state.montre && prevState.montre) {
-      // Si on vient de cacher la carte, on arrête le timer
-      clearInterval(this.interval);
-    }
-  }
 
   componentWillUnmount() {
     clearInterval(this.interval); // Stoppe le timer proprement avant que le composant disparaisse
